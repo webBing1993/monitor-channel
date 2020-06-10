@@ -733,14 +733,22 @@
                 this.strangerList.unshift(newData);
               }
             }else {
-              this.total1++;
-              this.toDayLists.unshift(newData);
-              if (this.toDayLists.length > 18) {
-                this.toDayLists.splice(18,1);
-              }
               if (newData.guestType == 'STAFF' || newData.guestType == 'STAFF_IN') {
                 if (this.tab3) {
                   this.getGuest(parseFloat(this.currentPage3-1));
+                }
+                if (newData.guestType == 'STAFF') {
+                  this.total1++;
+                  this.toDayLists.unshift(newData);
+                  if (this.toDayLists.length > 18) {
+                    this.toDayLists.splice(18,1);
+                  }
+                }
+              }else {
+                this.total1++;
+                this.toDayLists.unshift(newData);
+                if (this.toDayLists.length > 18) {
+                  this.toDayLists.splice(18,1);
                 }
               }
             }
