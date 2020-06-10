@@ -115,8 +115,8 @@
                   <el-col :xs="12" :sm="8" :md="6" :lg="4" :xl="4"  class="list" v-for="(item,index) in toDayLists" v-bind:key="index">
                     <div class="grid-content bg-purple">
                       <div class="imgs">
-                        <div class="nowImg"><img :src="item.facialPic" alt="" @click="bigImgShow(item.facialPic)"></div>
-                        <div class="idCacrdImg" v-if="item.mostSimilarPic"><img :src="item.mostSimilarPic" alt=""  @click="bigImgShow(item.mostSimilarPic)"></div>
+                        <div class="nowImg"><img :src="item.facial_pic" alt="" @click="bigImgShow(item.facial_pic)"></div>
+                        <div class="idCacrdImg" v-if="item.most_similar_pic"><img :src="item.most_similar_pic" alt=""  @click="bigImgShow(item.most_similar_pic)"></div>
                         <div class="idCacrdImg" v-else><img src="../../assets/index/noMan.png" alt=""  @click="bigImgShow('../../assets/index/noMan.png')"></div>
                       </div>
                       <div class="list_content">
@@ -155,8 +155,8 @@
                   <el-col :xs="12" :sm="8" :md="6" :lg="4" :xl="4"  class="list" v-for="(item,index) in strangerLists" v-bind:key="index">
                     <div class="grid-content bg-purple">
                       <div class="imgs">
-                        <div class="nowImg"><img :src="item.facialPic" alt="" @click="bigImgShow(item.facialPic)"></div>
-                        <div class="idCacrdImg" v-if="item.mostSimilarPic"><img :src="item.mostSimilarPic" alt=""  @click="bigImgShow(item.mostSimilarPic)"></div>
+                        <div class="nowImg"><img :src="item.facial_pic" alt="" @click="bigImgShow(item.facial_pic)"></div>
+                        <div class="idCacrdImg" v-if="item.most_similar_pic"><img :src="item.most_similar_pic" alt=""  @click="bigImgShow(item.most_similar_pic)"></div>
                         <div class="idCacrdImg" v-else><img src="../../assets/index/noMan.png" alt=""  @click="bigImgShow('../../assets/index/noMan.png')"></div>
                       </div>
                       <div class="list_content">
