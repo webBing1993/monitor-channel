@@ -185,6 +185,8 @@
           onsuccess: body => {
               let list = body.data.data.list;
               let timeArr = [],suspiciousList = [],staffList = [],visitorList = [],guestList = [];
+              this.echarts1Options = {};
+              this.echarts2Options = [];
               list.forEach(item => {
                 timeArr.push(item.date);
                 suspiciousList.push(item.suspicious);

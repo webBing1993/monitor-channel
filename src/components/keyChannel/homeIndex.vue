@@ -470,7 +470,7 @@
 
       // 获取在岗人员列表
       getGuest(page) {
-          clearInterval(this.timer_);
+          clearTimeout(this.timer_);
           let data = {
             status: 'in'
           };
@@ -482,24 +482,47 @@
               if (body.data.code == 0) {
                 let time = new Date().getTime();
                 if (body.data.data && body.data.data.length != 0) {
+                  let speakNum = 0;
                   body.data.data.forEach(item => {
                     if (parseInt(Math.abs(time-item.inTime)/1000/60) <= this.datetimeparse(item.warnTime, 'dd')) {
-                      item.type = 1;
+                      item.type = 2;
                     }else {
-                        item.type = 2
+                        item.type = 1;
+                        speakNum++;
                     }
                     item.inTime_ = this.getRemainderTime(item.inTime);
                     this.timer_ = setInterval(() => {
                       let inTime_ = (parseFloat(item.inTime/1000)+1)*1000;
                       item.inTime_ = this.getRemainderTime(inTime_)
                     }, 1000);
+                  });
+                  this.$nextTick(() => {
+                      if (speakNum != 0) {
+                          this.speckText('有人员超时滞留，请及时处理');
+                      }
                   })
                 }
                 this.strangerNum = parseInt(body.headers['x-total-count']);
+                this.total3 = parseInt(body.headers['x-total-count']);
                 this.whiteLists = [...body.data.data];
               }
           }
         })
+      },
+
+      // 语音播报
+      speckText(str){
+        let url = "http://tts.baidu.com/text2audio?cuid=baiduid&lan=zh&ctp=1&pdt=311&tex=" + encodeURI(str);        // baidu
+        let n = new Audio(url);
+        n.src = url;
+        setTimeout(() =>{
+          n.play();
+          n = null;
+          this.timer_ = setTimeout(() => {
+              clearTimeout(this.timer_);
+              this.speckText(str);
+          }, 10000)
+        }, 1500)
       },
 
       // 离岗处理
@@ -592,7 +615,7 @@
             if (body.data.code == 0) {
               this.total1 = body.data.data.count;
               this.total2 = body.data.data.suspiciousCount;
-              this.total3 = body.data.data.staffCount;
+              this.total3 = body.data.data.inCount;
               this.weekNum = body.data.data.weekTotal;
               this.monthNum = body.data.data.monthTotal;
               this.allNum = body.data.data.total;
@@ -712,13 +735,10 @@
             }else {
               this.total1++;
               this.toDayLists.unshift(newData);
-              console.log(11111222);
               if (this.toDayLists.length > 18) {
                 this.toDayLists.splice(18,1);
               }
               if (newData.guestType == 'STAFF' || newData.guestType == 'STAFF_IN') {
-                  console.log(2222223);
-                this.total3++;
                 if (this.tab3) {
                   this.getGuest(parseFloat(this.currentPage3-1));
                 }
