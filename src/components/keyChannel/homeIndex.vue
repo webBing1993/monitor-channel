@@ -5,17 +5,17 @@
       <el-container  ref="elAside">
         <el-aside>
           <div class="bg"><img src="../../assets/index/zuo.png" alt="" ></div>
-          <div class="stranger_title">
+          <div class="stranger_title stranger_title_">
             <div :class="strangerTab == 1 ? 'active stranger_tab' : 'stranger_tab'" @click="strangerTabClick(1, 1)">
               <img src="../../assets/index/zuoxuanzhong.png" alt="" v-if="strangerTab == 1">
               <img src="../../assets/index/zuoweixuan.png" alt="" v-else>
               陌生人(未处理)
             </div>
-            <div :class="strangerTab == 2 ? 'active stranger_tab' : 'stranger_tab'" @click="strangerTabClick(2, 1)">
-              <img src="../../assets/index/zuoxuanzhong.png" alt="" v-if="strangerTab == 2">
-              <img src="../../assets/index/zuoweixuan.png" alt="" v-else>
-              模糊抓拍
-            </div>
+            <!--<div :class="strangerTab == 2 ? 'active stranger_tab' : 'stranger_tab'" @click="strangerTabClick(2, 1)">-->
+              <!--<img src="../../assets/index/zuoxuanzhong.png" alt="" v-if="strangerTab == 2">-->
+              <!--<img src="../../assets/index/zuoweixuan.png" alt="" v-else>-->
+              <!--模糊抓拍-->
+            <!--</div>-->
           </div>
           <div class="stranger_list" v-if="strangerTab == 1">
             <div class="list red-purple" v-for="(item,index) in strangerList" :key="index">
@@ -582,7 +582,7 @@
             }else {
               this.strangerNum = parseInt(body.headers['x-total-count']);
               body.data.data.forEach(item => {
-                if (Math.abs(item.bluriness && item.bluriness) >= 0.4) {
+                if (Math.abs(item.bluriness && item.bluriness) >= 1) {
                   this.indistinctList.push(item);
                 }else {
                   this.strangerList.push(item);
@@ -727,7 +727,7 @@
           this.$nextTick(() => {
             if (newData.guestType == 'SUSPICIOUS_GUEST') {
               this.strangerNum++;
-              if (newData.bluriness && Math.abs(newData.bluriness) >= 0.4) {
+              if (newData.bluriness && Math.abs(newData.bluriness) >= 1) {
                 this.indistinctList.unshift(newData);
               }else {
                 this.strangerList.unshift(newData);
@@ -890,6 +890,7 @@
       text-align: left;
       line-height: 24px;
       display: inline-block;
+      text-align: left;
       .stranger_tab {
         display: inline-block;
         width: 120px;
@@ -910,6 +911,10 @@
       .active {
         color: #fff;
       }
+    }
+    .stranger_title_ {
+      display: flex;
+      justify-content: flex-start;
     }
     .el-main {
       padding: 0;
