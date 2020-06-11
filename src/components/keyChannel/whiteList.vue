@@ -132,7 +132,7 @@
         'uploadBmd'
       ]),
       getWhite (page) {
-        page = page * 30;
+        page = page * 20;
         this.whiteList = [];
         this.getWhiteList ({
           offset: page,
