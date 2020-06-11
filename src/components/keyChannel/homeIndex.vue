@@ -18,7 +18,7 @@
             <!--</div>-->
           </div>
           <div class="stranger_list" v-if="strangerTab == 1">
-            <div class="list red-purple" v-for="(item,index) in strangerList" :key="index">
+            <div class="list yellow-purple" v-for="(item,index) in strangerList" :key="index">
               <div class="img">
                 <img :src="item.facial_pic" alt="" @click="bigImgShow(item.facial_pic)">
               </div>
@@ -112,7 +112,7 @@
               <!-- 今日抓拍列表-->
               <div class="toDay_lists lists" v-if="tab1">
                 <el-row :gutter="8">
-                  <el-col :xs="12" :sm="8" :md="6" :lg="4" :xl="4"  class="list" v-for="(item,index) in toDayLists" v-bind:key="index">
+                  <el-col :xs="12" :sm="6" :md="6" :lg="6" :xl="6"  class="list" v-for="(item,index) in toDayLists" v-bind:key="index">
                     <div class="grid-content bg-purple">
                       <div class="imgs">
                         <div class="nowImg"><img :src="item.facial_pic" alt="" @click="bigImgShow(item.facial_pic)"></div>
@@ -140,7 +140,7 @@
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange1"
                   :current-page.sync="currentPage1"
-                  :page-size="18"
+                  :page-size="12"
                   layout="total, prev, pager, next"
                   :total="total1" v-if="toDayLists.length != 0">
                 </el-pagination>
@@ -152,7 +152,7 @@
               <!-- 陌生人列表-->
               <div class="stranger_lists lists" v-if="tab2">
                 <el-row :gutter="8">
-                  <el-col :xs="12" :sm="8" :md="6" :lg="4" :xl="4"  class="list" v-for="(item,index) in strangerLists" v-bind:key="index">
+                  <el-col :xs="12" :sm="6" :md="6" :lg="6" :xl="6"  class="list" v-for="(item,index) in strangerLists" v-bind:key="index">
                     <div class="grid-content bg-purple">
                       <div class="imgs">
                         <div class="nowImg"><img :src="item.facial_pic" alt="" @click="bigImgShow(item.facial_pic)"></div>
@@ -180,7 +180,7 @@
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange2"
                   :current-page.sync="currentPage2"
-                  :page-size="18"
+                  :page-size="12"
                   layout="total, prev, pager, next"
                   :total="total2" v-if="strangerLists.length != 0">
                 </el-pagination>
@@ -192,25 +192,25 @@
               <!-- 在岗人员列表-->
               <div class="white_lists lists" v-if="tab3">
                 <el-row :gutter="8">
-                  <el-col :xs="12" :sm="8" :md="6" :lg="4" :xl="4"  class="list" v-for="(item,index) in whiteLists" v-bind:key="index">
-                    <div :class="item.type == 1 ? 'grid-content bg-purple red-purple' : 'grid-content bg-purple'">
+                  <el-col :xs="12" :sm="6" :md="6" :lg="6" :xl="6"  class="list" v-for="(item,index) in whiteLists" v-bind:key="index">
+                    <div :class="item.type == 2 ? 'grid-content bg-purple red-purple' : 'grid-content bg-purple'">
                       <div class="imgs">
                         <div class="nowImg"><img :src="item.facialPic" alt="" @click="bigImgShow(item.facialPic)"></div>
                         <div class="idCacrdImg" v-if="item.mostSimilarPic"><img :src="item.mostSimilarPic" alt=""  @click="bigImgShow(item.mostSimilarPic)"></div>
                         <div class="idCacrdImg" v-else><img src="../../assets/index/noMan.png" alt=""  @click="bigImgShow('../../assets/index/noMan.png')"></div>
                       </div>
                       <div class="list_content">
-                        <div :class="item.type == 1 ? 'title blockTitle' : 'title'">{{ item.name }}</div>
+                        <div :class="item.type == 2 ? 'title blockTitle' : 'title'">{{ item.name }}</div>
                         <div class="content">
-                          <p :class="item.type == 1 ? 'blockTitle' : ''">
-                            <span>{{ item.type == 1 ? '在岗时间' : '滞留时间' }}：</span>
+                          <p :class="item.type == 2 ? 'blockTitle' : ''">
+                            <span>{{ item.type == 1 ? '在岗时间' : '在岗时间' }}：</span>
                             <span>{{ item.inTime_ }}</span>
                           </p>
-                          <p :class="item.type == 1 ? 'blockTitle' : ''">
+                          <p :class="item.type == 2 ? 'blockTitle' : ''">
                             <span>进入时间：</span>
                             <span>{{datetimeparse(item.inTime,'hh:mm:ss')}}</span>
                           </p>
-                          <div class="btns" v-if="item.type == 1" @click="goOut(item.id)">
+                          <div class="btns" v-if="item.type == 2" @click="goOut(item.id)">
                             <img src="../../assets/index/ligang.png" alt="">
                           </div>
                         </div>
@@ -222,7 +222,7 @@
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange3"
                   :current-page.sync="currentPage3"
-                  :page-size="18"
+                  :page-size="12"
                   layout="total, prev, pager, next"
                   :total="total3" v-if="whiteLists.length != 0">
                 </el-pagination>
@@ -295,7 +295,8 @@
         handleIndex: 1,
         selectLists: [],      // 位置筛选lists
         locationTab: 1,       // 位置筛选选择
-        timer_: null
+        timer_: null,
+        timer1: null,
       }
     },
     watch: {
@@ -379,12 +380,12 @@
           this.tab1 = true;
           this.tab2 = false;
           this.tab3 = false;
-          this.getLists(0,'',0,18,'');
+          this.getLists(0,'',0,12,'');
         }else if (num == 1) {
           this.tab1 = false;
           this.tab2 = true;
           this.tab3 = false;
-          this.getLists(0,'SUSPICIOUS_GUEST',1,18,'READ');
+          this.getLists(0,'SUSPICIOUS_GUEST',1,12,'READ');
         }else if (num == 2) {
           this.tab1 = false;
           this.tab2 = false;
@@ -407,9 +408,9 @@
           this.currentPage4 = 1;
           this.currentPage5 = 1;
           if (this.tab1) {
-            this.getLists(0,'',0,18,'');
+            this.getLists(0,'',0,12,'');
           }else if (this.tab2) {
-            this.getLists(0,'SUSPICIOUS_GUEST',1,18,'READ');
+            this.getLists(0,'SUSPICIOUS_GUEST',1,12,'READ');
           }else if (this.tab3) {
             this.getGuest(0);
           }
@@ -427,11 +428,11 @@
 
       handleCurrentChange1(val) {
         console.log(`当前页: ${val}`);
-        this.getLists(val-1,'',0,18,'');
+        this.getLists(val-1,'',0,12,'');
       },
       handleCurrentChange2(val) {
         console.log(`当前页2: ${val}`);
-        this.getLists(val-1,'SUSPICIOUS_GUEST ',1,18,'READ');
+        this.getLists(val-1,'SUSPICIOUS_GUEST ',1,12,'READ');
       },
       handleCurrentChange3(val) {
         console.log(`当前页3: ${val}`);
@@ -476,7 +477,7 @@
           };
         this.monitorGuest ({
           offset: page,
-          limit: 18,
+          limit: 12,
           data: data,
           onsuccess: body => {
               if (body.data.code == 0) {
@@ -484,10 +485,10 @@
                 if (body.data.data && body.data.data.length != 0) {
                   let speakNum = 0;
                   body.data.data.forEach(item => {
-                    if (parseInt(Math.abs(time-item.inTime)/1000/60) <= this.datetimeparse(item.warnTime, 'dd')) {
-                      item.type = 2;
+                    if (time <= item.warnTime) {
+                      item.type = 1;
                     }else {
-                        item.type = 1;
+                        item.type = 2;
                         speakNum++;
                     }
                     item.inTime_ = this.getRemainderTime(item.inTime);
@@ -554,7 +555,7 @@
 
       // 获取数据列表
       getLists (page,statuses,type,limit,status) {
-        page = page * 18;
+        page = page * 12;
         this.doubtfulList = [];
         let obj = {
           createTimeStart: new Date(this.datetimeparse(new Date(new Date(new Date().toLocaleDateString()).getTime()),'YYYY/MM/DD hh:mm:ss')).getTime(),
@@ -764,25 +765,28 @@
       websocketclose(e){  //关闭通道
         console.log("关闭通道connection closed (" + e.code + ")");
         this.websock.close();
-        setTimeout(() => {
+        clearTimeout(this.timer1);
+        this.timer1 = setTimeout(() => {
           if (this.handleIndex == 1) {
             this.initWebSocket();
           }
-        },3000);
+        },5000);
       },
       websocketerror(e){  //通道异常
         console.log("通道异常connection closed (" + e.code + ")");
         this.websock.close();
-        setTimeout(() => {
+        clearTimeout(this.timer1);
+        this.timer1 = setTimeout(() => {
             if (this.handleIndex == 1) {
               this.initWebSocket();
             }
-        },3000);
+        },5000);
       },
 
       beforeRouteLeave(to,from,next) {
         this.websock.close();
-        clearInterval(this.timer_);
+        clearTimeout(this.timer_);
+        clearTimeout(this.timer1);
         clearInterval(this.timer);
         next();
       },
@@ -1160,6 +1164,9 @@
     }
     .red-purple {
       background-color: red;
+    }
+    .yellow-purple {
+      background-color: #F85712;
     }
     .noMsg {
       text-align: center;

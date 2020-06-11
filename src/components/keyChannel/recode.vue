@@ -57,7 +57,7 @@
                         </div>
                         <div class="li">
                           <span class="name">滞留时间：</span>
-                          <span class="value">{{ getRemainderTime(item.inTime) }}</span>
+                          <span class="value" v-if="item.outTime">{{ getRemainderTime(item.inTime, item.outTime) }}</span>
                         </div>
                         <div :class="item.type != 1 ? 'li red-color' : 'li green-color'">
                           <span class="name">状态：</span>
@@ -170,9 +170,8 @@
       },
 
       // 距离现在在岗几时几分几秒
-      getRemainderTime (startTime){
-        let s2 = new Date(),
-          runTime = parseInt((s2.getTime() - startTime) / 1000);
+      getRemainderTime (startTime, endTime){
+        let runTime = parseInt((endTime - startTime) / 1000);
         let hour = Math.floor(runTime / 3600);
         runTime = runTime % 3600;
         let minute = Math.floor(runTime / 60);
@@ -206,7 +205,7 @@
                 let time = new Date().getTime();
                 if (body.data.data && body.data.data.length != 0) {
                   body.data.data.forEach(item => {
-                    if (parseInt(Math.abs(time-item.inTime)/1000/60) <= this.datetimeparse(item.warnTime, 'dd')) {
+                    if (time <= item.warnTime) {
                       item.type = 1;
                     }else {
                         item.type = 2
@@ -590,12 +589,12 @@
           padding: 5px;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-start;
           .img {
             display: inline-block;
             width: 100px;
             height: 100px;
-            margin-right: 8px;
+            margin-right: 10px;
             border-radius: 8px;
             img {
               display: inline-block;

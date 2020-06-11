@@ -74,7 +74,7 @@ export default {
 
       setTimeout(() =>{
         this.offsetWidthHeight();
-      }, 50)
+      }, 100)
   },
   methods:{
 
@@ -339,7 +339,7 @@ export default {
               border: none;
               font-size: 16px;
               line-height: 30px;
-              background-color: transparent;
+              background-color: inherit;
               color: #fff;
             }
             input:-moz-placeholder {

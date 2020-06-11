@@ -2,8 +2,8 @@
 <template>
   <div>
     <div class="whiteList" v-show="showTrue">
-      <div class="bg"><img src="../../assets/index/baimingdan.png" alt=""></div>
-      <div class="whiteContent">
+      <div class="bg" ref="bgHeight"><img src="../../assets/index/baimingdan.png" alt=""></div>
+      <div class="whiteContent" ref="whiteContent">
         <div class="white_title">
           白名单
         </div>
@@ -16,18 +16,18 @@
           </div>
         </div>
         <div v-if="whiteList.length != 0" class="whiteLists">
-          <el-row>
+          <el-row :gutter="8">
             <el-col :span="6"  v-for="item in whiteList" v-bind:key="item.id">
               <div class="grid-content">
                 <div class="img">
                   <img :src="item.imgUrl" alt=""  @click="bigImgShow(item.imgUrl)">
                 </div>
-              </div>
-              <div class="content">
-                <p>工作人员</p>
-                <div class="name"><span>姓名：</span>{{item.name}}</div>
-                <div class="name"><span>允许滞留：</span>{{item.retentionTime ? item.retentionTime + '分钟' : ''}}</div>
-                <div class="remove" @click="remove(item)"><img src="../../assets/index/shanchu.png" alt=""></div>
+                <div class="content">
+                  <p>工作人员</p>
+                  <div class="name"><span>姓名：</span>{{item.name}}</div>
+                  <div class="name"><span>允许滞留：</span>{{item.retentionTime ? item.retentionTime + '分钟' : ''}}</div>
+                  <div class="remove" @click="remove(item)"><img src="../../assets/index/shanchu.png" alt=""></div>
+                </div>
               </div>
             </el-col>
           </el-row>
@@ -35,7 +35,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page.sync="currentPage"
-            :page-size="30"
+            :page-size="20"
             layout="total, prev, pager, next"
             :total="total">
           </el-pagination>
@@ -136,7 +136,7 @@
         this.whiteList = [];
         this.getWhiteList ({
           offset: page,
-          limit: 30,
+          limit: 20,
           data:{
             likeName: this.name,
             createTimeStart:'',
@@ -147,6 +147,10 @@
             this.showTrue = true;
             this.total = parseInt(body.headers['x-total-count']);
             this.whiteList = [...body.data.data];
+            this.$nextTick(() => {
+                console.log(this.$refs);
+                this.$refs.bgHeight.style.height = (this.$refs.whiteContent.offsetHeight+70) + 'px';
+            })
           }
         })
       },
@@ -311,7 +315,7 @@
 <style scoped lang="less">
 
   .whiteList {
-    width: calc(100vw - 60px);
+    width: calc(100vw - 75px);
     margin: 15px 15px 0;
     padding: 15px;
     position: relative;
@@ -353,9 +357,11 @@
         line-height: 40px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         input {
           font-size: 14px;
           color: #408FE9;
+          height: 40px;
           padding-left: 15px;
           outline: none;
           background: #041740;
@@ -422,16 +428,16 @@
     .el-row {
       margin: 0 !important;
       .el-col {
-        width: 320px;
-        border: 1px solid #3798FC;
-        position: relative;
-        margin-right: 15px;
         margin-bottom: 15px;
-        background-color: #103A72;
-        display: flex;
-        justify-content: flex-start;
-        border-radius: 8px;
-        padding: 8px;
+        .grid-content {
+          border: 1px solid #3798FC;
+          position: relative;
+          background-color: #103A72;
+          display: flex;
+          justify-content: flex-start;
+          border-radius: 8px;
+          padding: 8px;
+        }
         .img {
           display: inline-block;
           width: 100px;
@@ -517,7 +523,7 @@
             justify-content: space-between;
             .name {
               font-size: 14px;
-              color: #909399;
+              color: #333;
               margin-top: 13px;
               width: 20%;
               display: inline-flex;
