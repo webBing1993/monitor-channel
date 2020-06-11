@@ -35,7 +35,7 @@
           </el-row>
         </el-header>
         <el-container>
-          <router-view  :handleIndex="handleIndex"></router-view>
+          <router-view  :handleTabIndex="handleTabIndex"></router-view>
         </el-container>
       </el-container>
     </div>
@@ -75,6 +75,7 @@
         roleShow: sessionStorage.roleId != '' ? true : false,  // 判断权限
         myName: '',
         handleIndex: 1,
+        handleTabIndex: '',
         handerImg: {
           img: [require('../../assets/index/topweixuan.png'),require('../../assets/index/topxuanzhong.png')],
         },
@@ -119,6 +120,10 @@
 
       // tab点击事件
       handleClick(tab) {
+          console.log('tab', tab);
+        sessionStorage.setItem('handleIndex', tab);
+        this.handleIndex = tab;
+        this.handleTabIndex = tab;
         if (tab == 1) {
           this.replaceto('keyChannel')
 //          this.replaceto('home')
@@ -129,8 +134,6 @@
         }else {
           this.replaceto('recode');
         }
-        sessionStorage.setItem('handleIndex', tab);
-        this.handleIndex = tab;
       },
 
       // 获取酒店通知者

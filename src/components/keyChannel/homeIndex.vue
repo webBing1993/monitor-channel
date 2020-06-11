@@ -261,7 +261,7 @@
   export default {
     components: {ElCol, Statistics},
     name: 'keyChannel',
-    props: ['handleIndex'],
+    props: ['handleTabIndex'],
     data () {
       return {
         hotelName: sessionStorage.hotelName, // 酒店名
@@ -300,7 +300,7 @@
       }
     },
     watch: {
-      handleIndex: function (val) {
+      handleTabIndex: function (val) {
         this.handleIndex = val;
         console.log(val);   // 接收父组件的值
         this.websock.close();
