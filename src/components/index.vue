@@ -339,7 +339,7 @@ export default {
               border: none;
               font-size: 16px;
               line-height: 30px;
-              background-color: inherit;
+              background-color: #103A72;
               color: #fff;
             }
             input:-moz-placeholder {
