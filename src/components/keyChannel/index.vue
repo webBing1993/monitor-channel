@@ -123,7 +123,7 @@
           console.log('tab', tab);
         sessionStorage.setItem('handleIndex', tab);
         this.handleIndex = tab;
-        this.handleTabIndex = tab;
+        this.handleTabIndex = tab+'&'+new Date().getTime();
         if (tab == 1) {
           this.replaceto('keyChannel')
 //          this.replaceto('home')

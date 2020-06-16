@@ -301,7 +301,7 @@
     },
     watch: {
       handleTabIndex: function (val) {
-        this.handleIndex = val;
+        this.handleIndex = val.split('&')[0];
         console.log(val);   // 接收父组件的值
         this.websock.close();
       },
@@ -582,13 +582,14 @@
               this.whiteLists = [...body.data.data];
             }else {
               this.strangerNum = parseInt(body.headers['x-total-count']);
-              body.data.data.forEach(item => {
-                if (Math.abs(item.bluriness && item.bluriness) >= 1) {
-                  this.indistinctList.push(item);
-                }else {
-                  this.strangerList.push(item);
-                }
-              });
+//              body.data.data.forEach(item => {
+//                if (Math.abs(item.bluriness && item.bluriness) >= 1) {
+//                  this.indistinctList.push(item);
+//                }else {
+//                  this.strangerList.push(item);
+//                }
+//              });
+              this.indistinctList = [...body.data.data];
             }
             this.$nextTick(() => {
               this.loading.close();
