@@ -59,9 +59,9 @@
                           <span class="name">滞留时间：</span>
                           <span class="value" v-if="item.outTime">{{ getRemainderTime(item.inTime, item.outTime) }}</span>
                         </div>
-                        <div :class="item.type != 1 ? 'li red-color' : 'li green-color'">
+                        <div :class="(item.outTime > item.warnTime) ? 'li red-color' : 'li green-color'" v-if="item.outTime">
                           <span class="name">状态：</span>
-                          <span class="value">{{ item.type == 1 ? '正常' : '超时' }}</span>
+                          <span class="value">{{ (item.outTime <= item.warnTime) ? '正常' : '超时' }}</span>
                         </div>
                       </div>
                     </div>
@@ -202,15 +202,15 @@
           data: data,
           onsuccess: body => {
               if (body.data.code == 0) {
-                let time = new Date().getTime();
+//                let time = new Date().getTime();
                 if (body.data.data && body.data.data.length != 0) {
-                  body.data.data.forEach(item => {
-                    if (time <= item.warnTime) {
-                      item.type = 1;
-                    }else {
-                        item.type = 2
-                    }
-                  })
+//                  body.data.data.forEach(item => {
+//                    if (item.outTime <= item.warnTime) {
+//                      item.type = 1;
+//                    }else {
+//                        item.type = 2
+//                    }
+//                  })
                 }
                 this.total = parseInt(body.headers['x-total-count']);
                 this.whiteLists = [...body.data.data];
